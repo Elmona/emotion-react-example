@@ -1,0 +1,33 @@
+{
+	"baseUrl": ".",
+	"compilerOptions": {
+		"lib": [
+			"ES2020",
+			"dom",
+			"esnext"
+		],
+		"target": "ES5",
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"types": [
+			"@emotion/react/types/css-prop"
+		]
+	},
+	"jsx": "react-jsx",
+	"jsxImportSource": "@emotion/react",
+	"types": [
+		"@emotion/react/types/css-prop"
+	],
+	"typeRoots": [
+		"./@types",
+		"./node_modules/@types"
+	],
+	"noEmit": true,
+	"include": [
+		"src/**/*.ts"
+	],
+	"exclude": [
+		"node_modules",
+		"/dist/**/*"
+	]
+}

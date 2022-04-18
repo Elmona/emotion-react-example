@@ -3,10 +3,10 @@ import {Card} from '../models/cards'
 import {wrapper, cardStyling} from './Cards.css'
 
 const Cards = ({cards}: {cards: Array<Card>}) => {
-    return <div css={(t) => wrapper(t)}>
+    return <div css={(theme) => wrapper(theme)}>
         {cards.map((card) =>
             <div
-                css={(t) => cardStyling(t, card.backgroundcolor, card.color)}
+                css={(theme) => cardStyling(theme, card.backgroundcolor, card.color)}
                 key={card.name}
             >
                 <p>{card.name}</p>

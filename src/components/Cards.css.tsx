@@ -11,7 +11,7 @@ export const wrapper = (theme: Theme) => css`
   padding: ${theme.spacing.m} 0;
 
   ${medium} {
-	  flex-direction: row;
+	flex-direction: row;
   }
 `
 
@@ -36,6 +36,6 @@ export const cardStyling = (theme: Theme, backgroundcolor: string, color: string
   }
 
   ${medium} {
-	  width: 100%;
+	width: 100%;
   }
 `

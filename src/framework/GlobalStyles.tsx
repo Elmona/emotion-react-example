@@ -146,5 +146,5 @@ const globalStyles = (theme: Theme) => css`
 `
 
 export const GlobalStyles = () => <Global
-  styles={(theme: Theme) => globalStyles(theme)}
+    styles={(theme: Theme) => globalStyles(theme)}
 />

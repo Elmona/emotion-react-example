@@ -11,26 +11,25 @@ import {lightTheme} from './framework/theme'
 import {cards} from './models/cards'
 
 const App = () => {
+    const [theme, setTheme] = useState(lightTheme)
 
-  const [theme, setTheme] = useState(lightTheme)
-
-  return <>
-    <ThemeProvider theme={theme}>
-      <GlobalStyles />
-      <Header
-        setTheme={setTheme}
-        theme={theme}
-      />
-      {/* TOOD: Add Wrapper here */}
-      <main>
-        <DisplayTextElements />
-        <Cards cards={cards} />
-      </main>
-      <footer>
-        {/* TOOD */}
-      </footer>
-    </ThemeProvider>
-  </>
+    return <>
+        <ThemeProvider theme={theme}>
+            <GlobalStyles />
+            <Header
+                setTheme={setTheme}
+                theme={theme}
+            />
+            {/* TOOD: Add Wrapper here */}
+            <main>
+                <DisplayTextElements />
+                <Cards cards={cards} />
+            </main>
+            <footer>
+                {/* TOOD */}
+            </footer>
+        </ThemeProvider>
+    </>
 }
 
 

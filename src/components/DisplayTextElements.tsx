@@ -1,5 +1,4 @@
 
-
 const DisplayTextElements = () => <>
     <h1>Headline H1</h1>
     <h2>Headline H2</h2>

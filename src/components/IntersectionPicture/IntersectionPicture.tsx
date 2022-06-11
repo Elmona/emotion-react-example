@@ -6,7 +6,6 @@ import React from 'react'
  * @returns {JSX} - Picture-element with image-srcets.
  */
 const IntersectionPicture : React.FC = () => {
-  console.log('loaded')
   return (
     <div>IntersectionPicture</div>
   )

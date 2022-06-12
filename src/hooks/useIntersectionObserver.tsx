@@ -22,9 +22,8 @@ const useIntersectionObserver = (margin: number = 0, threshold: number = 1.0) =>
    * @param entries - List of IntersectionObserverEntry-objects.
    * @param observer - The observer.
    */
-  const intersectionHandler = (entries, observer) => {
+  const intersectionHandler = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
     entries.forEach(entry => {
-      console.log(entry)
       if (entry.isIntersecting) {
         setIsIntersecting(true)
 

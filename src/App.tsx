@@ -9,6 +9,7 @@ import {GlobalStyles} from './framework/GlobalStyles'
 import {lightTheme} from './framework/theme'
 
 import {cards} from './models/cards'
+import IntersectionPicture from './components/IntersectionPicture/IntersectionPicture'
 
 const App = () => {
     const [theme, setTheme] = useState(lightTheme)
@@ -24,6 +25,7 @@ const App = () => {
             <main>
                 <DisplayTextElements />
                 <Cards cards={cards} />
+                <IntersectionPicture />
             </main>
             <footer>
                 {/* TOOD */}

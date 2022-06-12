@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
 
 interface intersectionObserverOptions {
-  root: HTMLElement | null
-  rootMargin: string
-  threshold: number
+  root?: HTMLElement | null
+  rootMargin?: string
+  threshold?: number
 }
 
 /**

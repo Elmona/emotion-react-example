@@ -1,4 +1,5 @@
 import React from 'react'
+import useIntersectionObserver from '../../hooks/useIntersectionObserver'
 
 /**
  * Lazyloaded picture-component.
@@ -6,8 +7,13 @@ import React from 'react'
  * @returns {JSX} - Picture-element with image-srcets.
  */
 const IntersectionPicture : React.FC = () => {
+  const { targetRef, isIntersecting } = useIntersectionObserver()
+
+  if (isIntersecting) {
+    console.log('intersecting')
+  }
   return (
-    <div>IntersectionPicture</div>
+    <div ref={targetRef}>IntersectionPicture</div>
   )
 }
 

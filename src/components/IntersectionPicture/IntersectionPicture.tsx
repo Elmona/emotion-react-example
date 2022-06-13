@@ -19,6 +19,7 @@ interface InstersectionPictureOptions {
 type Props = {
   children?: JSX.Element
   options?: InstersectionPictureOptions
+  uuid: string
 }
 
 const defaultOptions = {
@@ -33,7 +34,7 @@ const defaultOptions = {
  *
  * @returns {JSX} - Picture-element with image-srcets.
  */
-const IntersectionPicture = ({children, options = defaultOptions}: Props) => {
+const IntersectionPicture = ({uuid, children, options = defaultOptions}: Props) => {
   const { targetRef, isIntersecting } = useIntersectionObserver()
   
   // Populate options with default values.

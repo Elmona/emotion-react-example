@@ -1,7 +1,7 @@
 import React from 'react'
 import useIntersectionObserver from '../../hooks/useIntersectionObserver'
 import { fallbackStyling } from './IntersectionPicture.css'
-import { viewportSmall, viewportMedium, viewportLarge } from '../../framework/mediaqueries'
+import { viewportSmall, viewportMedium } from '../../framework/mediaqueries'
 
 /**
  * Interface for the options-object.
@@ -10,7 +10,6 @@ interface InstersectionPictureOptions {
   base_url?: string
   type?: string
   source?: boolean
-  mobile_first?: boolean
   placeholder_height?: string
   placeholder_background_color?: string
 }
@@ -39,7 +38,6 @@ const IntersectionPicture = ({alt, uuid, children, options}: Props) => {
     base_url: options?.base_url || 'https://imengine.gota.infomaker.io',
     type: options?.type || 'preview',
     source: options?.source || false,
-    mobile_first: options?.mobile_first || false,
     placeholder_height: options?.placeholder_height || '200px',
     placeholder_background_color: options?.placeholder_background_color || 'transparent'
   }
@@ -48,19 +46,11 @@ const IntersectionPicture = ({alt, uuid, children, options}: Props) => {
     <>
       { !isIntersecting && <div ref={targetRef} css={() => fallbackStyling(optionObject.placeholder_background_color)}>{ children || <div>Not intersecting</div> }</div> }
 
-      { isIntersecting && !optionObject.mobile_first && (
+      { isIntersecting && (
         <picture>
           <source srcSet={`${optionObject.base_url}?uuid=${uuid}&width=${viewportSmall}&type=${optionObject.type}&source=${optionObject.source}`} media={`(max-width: ${viewportSmall}px)`}/>
           <source srcSet={`${optionObject.base_url}?uuid=${uuid}&width=${viewportMedium}&type=${optionObject.type}&source=${optionObject.source}`} media={`(max-width: ${viewportMedium}px)`}/>
           <img src={`${optionObject.base_url}?uuid=${uuid}&type=${optionObject.type}&source=${optionObject.source}`} alt={alt} />
-        </picture>
-      ) }
-
-      { isIntersecting && optionObject.mobile_first && (
-        <picture>
-          <source srcSet={`${optionObject.base_url}?uuid=${uuid}&type=${optionObject.type}&source=${optionObject.source}`} media={`(min-width: ${viewportLarge}px)`}/>
-          <source srcSet={`${optionObject.base_url}?uuid=${uuid}&width=${viewportMedium}&type=${optionObject.type}&source=${optionObject.source}`} media={`(min-width: ${viewportMedium}px)`}/>
-          <img src={`${optionObject.base_url}?uuid=${uuid}&width=${viewportSmall}&type=${optionObject.type}&source=${optionObject.source}`} alt={alt} />
         </picture>
       ) }
     </>

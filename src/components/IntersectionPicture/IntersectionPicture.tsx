@@ -1,6 +1,6 @@
 import React from 'react'
 import useIntersectionObserver from '../../hooks/useIntersectionObserver'
-import { fallbackStyling } from './IntersectionPicture.css'
+import { fallbackStyling, imageStyling } from './IntersectionPicture.css'
 import { viewportSmall, viewportMedium } from '../../framework/mediaqueries'
 
 /**
@@ -44,13 +44,13 @@ const IntersectionPicture = ({alt, uuid, children, options}: Props) => {
 
   return (
     <>
-      { !isIntersecting && <div ref={targetRef} css={() => fallbackStyling(optionObject.placeholder_background_color)}>{ children || <div>Not intersecting</div> }</div> }
+      { !isIntersecting && <div ref={targetRef} css={() => fallbackStyling(optionObject.placeholder_background_color, optionObject.placeholder_height)}>{ children || <div>Not intersecting</div> }</div> }
 
       { isIntersecting && (
         <picture>
           <source srcSet={`${optionObject.base_url}?uuid=${uuid}&width=${viewportSmall}&type=${optionObject.type}&source=${optionObject.source}`} media={`(max-width: ${viewportSmall}px)`}/>
           <source srcSet={`${optionObject.base_url}?uuid=${uuid}&width=${viewportMedium}&type=${optionObject.type}&source=${optionObject.source}`} media={`(max-width: ${viewportMedium}px)`}/>
-          <img src={`${optionObject.base_url}?uuid=${uuid}&type=${optionObject.type}&source=${optionObject.source}`} alt={alt} />
+          <img src={`${optionObject.base_url}?uuid=${uuid}&type=${optionObject.type}&source=${optionObject.source}`} alt={alt} css={() => imageStyling()} />
         </picture>
       ) }
     </>

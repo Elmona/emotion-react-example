@@ -25,7 +25,7 @@ const App = () => {
             <main>
                 <DisplayTextElements />
                 <Cards cards={cards} />
-                <IntersectionPicture />
+                <IntersectionPicture uuid='f468b0f3-16ca-5583-9a51-3fceed135ba8' alt='Test image' options={{ mobile_first: true }} />
             </main>
             <footer>
                 {/* TOOD */}

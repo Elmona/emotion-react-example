@@ -1,13 +1,16 @@
 import React from 'react'
 import useIntersectionObserver from '../../hooks/useIntersectionObserver'
 import { fallbackStyling } from './IntersectionPicture.css'
+import { viewportSmall, viewportMedium, viewportLarge } from '../../framework/mediaqueries'
 
 /**
  * Interface for the options-object.
  */
 interface InstersectionPictureOptions {
+  base_url?: string
+  type?: string
+  source?: boolean
   mobile_first?: boolean
-  media_unit?: string
   placeholder_height?: string
   placeholder_background_color?: string
 }
@@ -20,13 +23,7 @@ type Props = {
   children?: JSX.Element
   options?: InstersectionPictureOptions
   uuid: string
-}
-
-const defaultOptions = {
-  mobile_first: false,
-  media_unit: 'px',
-  placeholder_height: '200px',
-  placeholder_background_color: 'transparent'
+  alt: string
 }
 
 /**
@@ -34,26 +31,47 @@ const defaultOptions = {
  *
  * @returns {JSX} - Picture-element with image-srcets.
  */
-const IntersectionPicture = ({uuid, children, options = defaultOptions}: Props) => {
+const IntersectionPicture = ({alt, uuid, children, options}: Props) => {
   const { targetRef, isIntersecting } = useIntersectionObserver()
   
-  // Populate options with default values.
+  // Populate options with default values to let client only add some options and leave the others to default.
   const optionObject = {
-    mobile_first: options.mobile_first || false,
-    media_unit: options.media_unit || 'px',
-    placeholder_height: options.placeholder_height || '200px',
-    placeholder_background_color: options.placeholder_background_color || 'transparent'
+    base_url: options?.base_url || 'https://imengine.gota.infomaker.io',
+    type: options?.type || 'preview',
+    source: options?.source || false,
+    mobile_first: options?.mobile_first || false,
+    placeholder_height: options?.placeholder_height || '200px',
+    placeholder_background_color: options?.placeholder_background_color || 'transparent'
   }
-
 
   return (
     <>
       { !isIntersecting && <div ref={targetRef} css={() => fallbackStyling(optionObject.placeholder_background_color)}>{ children || <div>Not intersecting</div> }</div> }
-      { isIntersecting && (
-        <div>Is intersecting</div>
+
+      { isIntersecting && !optionObject.mobile_first && (
+        <picture>
+          <source srcSet={`${optionObject.base_url}?uuid=${uuid}&width=${viewportSmall}&type=${optionObject.type}&source=${optionObject.source}`} media={`(max-width: ${viewportSmall}px)`}/>
+          <source srcSet={`${optionObject.base_url}?uuid=${uuid}&width=${viewportMedium}&type=${optionObject.type}&source=${optionObject.source}`} media={`(max-width: ${viewportMedium}px)`}/>
+          <img src={`${optionObject.base_url}?uuid=${uuid}&type=${optionObject.type}&source=${optionObject.source}`} alt={alt} />
+        </picture>
+      ) }
+
+      { isIntersecting && optionObject.mobile_first && (
+        <picture>
+          <source srcSet={`${optionObject.base_url}?uuid=${uuid}&type=${optionObject.type}&source=${optionObject.source}`} media={`(min-width: ${viewportLarge}px)`}/>
+          <source srcSet={`${optionObject.base_url}?uuid=${uuid}&width=${viewportMedium}&type=${optionObject.type}&source=${optionObject.source}`} media={`(min-width: ${viewportMedium}px)`}/>
+          <img src={`${optionObject.base_url}?uuid=${uuid}&width=${viewportSmall}&type=${optionObject.type}&source=${optionObject.source}`} alt={alt} />
+        </picture>
       ) }
     </>
   )
 }
 
 export default IntersectionPicture
+
+
+/**
+ * test uuids: 
+ * f87dc2da-7835-5c6b-ad74-2593b243d603
+ * f468b0f3-16ca-5583-9a51-3fceed135ba8
+ */

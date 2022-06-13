@@ -9,17 +9,12 @@ interface intersectionObserverOptions {
 /**
  * Custom hook to use browser api Intersection Observer.
  *
+ * @param {object} options - Options-object for the Intersection Observer.
  * @returns {object} - Ref for target element and isIntersecting-state.
  */
 const useIntersectionObserver = (options?: intersectionObserverOptions) => {
   const [isIntersecting, setIsIntersecting] = useState(false)
   const targetRef = useRef(null)
-
-  const intersectionOptions = {
-    root: options?.root || null,
-    rootMargin: options?.rootMargin || '0px',
-    threshold: options?.threshold || 0
-  }
 
   /**
    * Callback-function checking if element is intersecting.
@@ -38,18 +33,24 @@ const useIntersectionObserver = (options?: intersectionObserverOptions) => {
   }
 
   useEffect(() => {
-  const observer = new IntersectionObserver(intersectionHandler, intersectionOptions)
+  const intersectionOptions = {
+    root: options?.root || null,
+    rootMargin: options?.rootMargin || '0px',
+    threshold: options?.threshold || 0
+  }
 
-  if (targetRef.current) {
-    observer.observe(targetRef.current)
+  const observer = new IntersectionObserver(intersectionHandler, intersectionOptions)
+  const target = targetRef.current
+  if (target) {
+    observer.observe(target)
   }
 
   return () => {
-    if (targetRef.current) {
-      observer.unobserve(targetRef.current)
+    if (target) {
+      observer.unobserve(target)
     }
   }
-  }, [targetRef])
+  }, [targetRef, options])
 
   return {
     targetRef,

@@ -1,5 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
 
+/**
+ * The interface of the Intersection Observer option-object.
+ *
+ */
 interface intersectionObserverOptions {
   root?: HTMLElement | null
   rootMargin?: string

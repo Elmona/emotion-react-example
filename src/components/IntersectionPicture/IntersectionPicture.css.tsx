@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import {css} from '@emotion/react'
+import { css } from '@emotion/react'
 
 export const fallbackStyling = (backgroundcolor: string, height: string) => css`
   width: 100%;
@@ -12,6 +12,5 @@ export const fallbackStyling = (backgroundcolor: string, height: string) => css`
 `
 
 export const imageStyling = () => css`
-  width: 100vw;
-  display: block;
+  width: 100%;
 `

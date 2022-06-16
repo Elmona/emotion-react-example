@@ -42,16 +42,31 @@ const IntersectionPicture = ({alt, uuid, children, options}: Props) => {
     placeholder_height: options?.placeholder_height || '300px',
     placeholder_background_color: options?.placeholder_background_color || 'transparent'
   }
- 
+
+  /**
+   * Create url with query-parameters based on options and media-queries.
+   *
+   * @param width - The width to set as value for query-parameter width.
+   * @returns {URL} - Url-object.
+   */
+  const createUrlParams = (width: number): URLSearchParams => {
+    return new URLSearchParams({
+        uuid,
+        width: `${width}`,
+        type: `${optionObject.imengine_type}`,
+        source: `${optionObject.imengine_source}`
+    })
+  }
+
   return (
     <>
       { !isIntersecting && <div ref={targetRef} css={() => fallbackStyling(optionObject.placeholder_background_color, optionObject.placeholder_height)}>{ children }</div> }
 
       { isIntersecting && (
         <picture>
-          <source srcSet={`${optionObject.base_url}?uuid=${uuid}&width=${viewportSmall}&type=${optionObject.imengine_type}&source=${optionObject.imengine_source}`} media={`(max-width: ${viewportSmall}px)`}/>
-          <source srcSet={`${optionObject.base_url}?uuid=${uuid}&width=${viewportMedium}&type=${optionObject.imengine_type}&source=${optionObject.imengine_source}`} media={`(max-width: ${viewportMedium}px)`}/>
-          <img src={`${optionObject.base_url}?uuid=${uuid}&width=${window.innerWidth}&type=${optionObject.imengine_type}&source=${optionObject.imengine_source}`} alt={alt} css={() => imageStyling()} />
+          <source srcSet={`${optionObject.base_url}?${createUrlParams(viewportSmall)}`} media={`(max-width: ${viewportSmall}px)`}/>
+          <source srcSet={`${optionObject.base_url}?${createUrlParams(viewportMedium)}`} media={`(max-width: ${viewportMedium}px)`}/>
+          <img src={`${optionObject.base_url}?${createUrlParams(window.innerWidth)}`} alt={alt} css={() => imageStyling()} />
         </picture>
       ) }
     </>

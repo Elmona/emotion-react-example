@@ -32,7 +32,7 @@ type Props = {
  * @returns {JSX} - Picture-element with image-srcets.
  */
 const IntersectionPicture = ({alt, uuid, children, options}: Props) => {
-  const { targetRef, isIntersecting } = useIntersectionObserver()
+  const { targetRef, isIntersecting } = useIntersectionObserver<HTMLDivElement>()
 
   // Populate options with default values to let client only add some options and leave the others to default.
   const optionObject = {

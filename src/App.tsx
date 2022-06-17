@@ -10,6 +10,7 @@ import {lightTheme} from './framework/theme'
 
 import {cards} from './models/cards'
 import IntersectionPicture from './components/IntersectionPicture/IntersectionPicture'
+import IntersectionPictureOnce from './components/IntersectionPicture/IntersectionPictureOnce'
 
 const App = () => {
     const [theme, setTheme] = useState(lightTheme)
@@ -23,7 +24,10 @@ const App = () => {
             />
             {/* TOOD: Add Wrapper here */}
             <main>
+                <IntersectionPictureOnce uuid='ae39a0be-e360-50e5-a2e0-528ff145b73b' alt='Test image once' />
                 <DisplayTextElements />
+                <Cards cards={cards} />
+                <Cards cards={cards} />
                 <Cards cards={cards} />
                 <IntersectionPicture uuid='ae39a0be-e360-50e5-a2e0-528ff145b73b' alt='Test image' />
             </main>

@@ -7,13 +7,21 @@
 import { useState, useEffect, useRef } from 'react'
 
 /**
-* The interface for the Intersection Observer option-object.
+* The interface for the Intersection Observer API option-object.
 *
 */
-export interface IntersectionObserverOptions {
+interface IntersectionObserverOptions {
   root?: HTMLElement | null
   rootMargin?: string
   threshold?: number
+}
+
+/**
+* The interface for the Intersection Observer API option-object.
+*
+*/
+interface HookOptions extends IntersectionObserverOptions {
+  intersect_once?: boolean
 }
 
 /**
@@ -22,25 +30,9 @@ export interface IntersectionObserverOptions {
 * @param {object} options - Options-object for the Intersection Observer.
 * @returns {object} - Ref for target element and isIntersecting-state.
 */
-const useIntersectionObserver = <T extends HTMLElement>(options?: IntersectionObserverOptions) => {
+const useIntersectionObserver = <T extends HTMLElement>(options?: HookOptions) => {
   const [isIntersecting, setIsIntersecting] = useState<boolean>(false)
   const targetRef = useRef<T>(null)
-
-  /**
-  * Callback-function checking if element is intersecting.
-  *
-  * @param entries - List of IntersectionObserverEntry-objects.
-  * @param observer - The observer.
-  */
-  const intersectionHandler = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        setIsIntersecting(true)
-
-        observer.unobserve(entry.target)
-      }
-    })
-  }
 
   /**
   * Initialize the observer for selected target.
@@ -48,10 +40,33 @@ const useIntersectionObserver = <T extends HTMLElement>(options?: IntersectionOb
   *
   */
   useEffect(() => {
+    // Set up options object with default values for Intersection Observer API.
     const intersectionOptions = {
       root: options?.root || null,
       rootMargin: options?.rootMargin || '0px',
       threshold: options?.threshold || 0
+    }
+
+    /**
+    * Callback-function checking if element is intersecting.
+    *
+    * @param entries - List of IntersectionObserverEntry-objects.
+    * @param observer - The observer.
+    */
+    const intersectionHandler = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setIsIntersecting(true)
+
+          const optionsSetToOnce = options?.intersect_once === undefined ? true : options.intersect_once
+
+          if (optionsSetToOnce) {
+            observer.unobserve(entry.target)
+          }
+        } else if (!entry.isIntersecting) {
+          setIsIntersecting(false)
+        }
+      })
     }
 
     const observer: IntersectionObserver = new IntersectionObserver(intersectionHandler, intersectionOptions)

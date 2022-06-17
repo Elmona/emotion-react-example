@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react'
 import useIntersectionObserver from '../../hooks/useIntersectionObserver'
-import { imageStyling } from './IntersectionPicture.css'
+import { fallbackStyling, imageStyling } from './IntersectionPictureOnce.css'
 import { viewportSmall, viewportMedium } from '../../framework/mediaqueries'
 
 /**
@@ -32,7 +32,7 @@ type Props = {
  * @returns {JSX} - Picture-element with image-srcets.
  */
 const IntersectionPicture = ({alt, uuid, children, options}: Props) => {
-  const { targetRef } = useIntersectionObserver<HTMLImageElement>({ intersect_once: false })
+  const { targetRef, isIntersecting } = useIntersectionObserver<HTMLDivElement>()
 
   // Populate options with default values to let client only add some options and leave the others to default.
   const optionObject = {
@@ -60,11 +60,15 @@ const IntersectionPicture = ({alt, uuid, children, options}: Props) => {
 
   return (
     <>
-      <picture>
-        <source srcSet={`${optionObject.base_url}?${createUrlParams(viewportSmall)}`} media={`(max-width: ${viewportSmall}px)`}/>
-        <source srcSet={`${optionObject.base_url}?${createUrlParams(viewportMedium)}`} media={`(max-width: ${viewportMedium}px)`}/>
-        <img ref={targetRef} src={`${optionObject.base_url}?${createUrlParams(window.innerWidth)}`} alt={alt} css={() => imageStyling()} />
-      </picture>
+      { !isIntersecting && <div ref={targetRef} css={() => fallbackStyling(optionObject.placeholder_background_color, optionObject.placeholder_height)}>{ children }</div> }
+
+      { isIntersecting && (
+        <picture>
+          <source srcSet={`${optionObject.base_url}?${createUrlParams(viewportSmall)}`} media={`(max-width: ${viewportSmall}px)`}/>
+          <source srcSet={`${optionObject.base_url}?${createUrlParams(viewportMedium)}`} media={`(max-width: ${viewportMedium}px)`}/>
+          <img src={`${optionObject.base_url}?${createUrlParams(window.innerWidth)}`} alt={alt} css={() => imageStyling()} />
+        </picture>
+      ) }
     </>
   )
 }

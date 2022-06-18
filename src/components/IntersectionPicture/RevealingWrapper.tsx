@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React, { PropsWithChildren } from 'react'
 import useIntersectionObserver from '../../hooks/useIntersectionObserver'
+import { wrapperStyle } from './RevealingWrapper.css'
 
 /**
  * Wrapper div revealing child-elements when intersecting and hiding it when not intersecting.
@@ -15,7 +16,10 @@ const RevealingWrapper = ({ children }: PropsWithChildren) => {
   }
 
   return (
-    <div ref={targetRef}>
+    <div
+      ref={targetRef}
+      css={() => wrapperStyle()}
+    >
       { children }
     </div>
   )

@@ -55,7 +55,9 @@ const useIntersectionObserver = <T extends HTMLElement>(options?: HookOptions) =
     */
     const intersectionHandler = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && (entry.intersectionRatio > intersectionOptions.threshold)) {
+          console.log('running hook, intersecting')
+          console.log(entry.intersectionRatio)
           setIsIntersecting(true)
 
           const optionsSetToOnce = options?.intersect_once === undefined ? true : options.intersect_once

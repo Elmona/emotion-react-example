@@ -25,13 +25,14 @@ const App = () => {
             {/* TOOD: Add Wrapper here */}
             <main>
                 <DisplayTextElements />
-                <IntersectionPicture uuid='ae39a0be-e360-50e5-a2e0-528ff145b73b' alt='Test image' />
+                <Cards cards={cards} />
+                <Cards cards={cards} />
+                <Cards cards={cards} />
+                <Cards cards={cards} />
                 <RevealingWrapper>
                     <h1>Pick-a-boo!</h1>
                 </RevealingWrapper>
-                <Cards cards={cards} />
-                <Cards cards={cards} />
-                <Cards cards={cards} />
+                <IntersectionPicture uuid='ae39a0be-e360-50e5-a2e0-528ff145b73b' alt='Test image' />
             </main>
             <footer>
                 {/* TOOD */}

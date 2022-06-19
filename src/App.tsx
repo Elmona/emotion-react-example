@@ -30,7 +30,7 @@ const App = () => {
                 <Cards cards={cards} />
                 <Cards cards={cards} />
                 <RevealingWrapper>
-                    <h1>Pick-a-boo!</h1>
+                    <h1>Peek-a-boo!</h1>
                 </RevealingWrapper>
                 <Cards cards={cards} />
                 <Cards cards={cards} />

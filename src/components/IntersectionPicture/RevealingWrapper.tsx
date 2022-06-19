@@ -10,7 +10,7 @@ import { wrapperStyle } from './RevealingWrapper.css'
  */
 const RevealingWrapper = ({ children }: PropsWithChildren) => {
   const { targetRef, isIntersecting } = useIntersectionObserver<HTMLImageElement>(useMemo(() => ({ observe_once: false, threshold: 0.6 }), []))
-  console.log('render RevealingWrapper')
+  console.log('RevealingWrapper rendered')
   if (isIntersecting) {
     console.log('Pick-a-boo!')
   }

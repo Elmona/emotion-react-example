@@ -2,14 +2,14 @@
  * Hook used to target element with Intersection Observer API.
  *
  * @author Anders Jonsson
- * @version 1.0.0
+ * @version 1.1.0
  */
 import { useState, useEffect, useRef } from 'react'
 
 /**
-* The interface for the Intersection Observer API option-object.
-*
-*/
+ * The interface for the Intersection Observer API option-object.
+ *
+ */
 interface IntersectionObserverOptions {
   root?: HTMLElement | null
   rootMargin?: string
@@ -17,49 +17,48 @@ interface IntersectionObserverOptions {
 }
 
 /**
-* The interface for the Intersection Observer API option-object.
-*
-*/
+ * The interface for the Intersection Observer API option-object.
+ *
+ */
 interface HookOptions extends IntersectionObserverOptions {
   observe_once?: boolean
 }
 
 /**
-* Custom hook to use browser api Intersection Observer.
-*
-* @param {object} options - Options-object for the Intersection Observer.
-* @returns {object} - Ref for target element and isIntersecting-state.
-*/
+ * Custom hook to use browser api Intersection Observer.
+ *
+ * @param {object} options - Options-object for the Intersection Observer.
+ * @returns {object} - Ref for target element and isIntersecting-state.
+ */
 const useIntersectionObserver = <T extends HTMLElement>(options?: HookOptions) => {
   const [isIntersecting, setIsIntersecting] = useState<boolean>(false)
   const targetRef = useRef<T>(null)
 
   /**
-  * Initialize the observer for selected target.
-  * Unsubscribes and sets sets new target when targetRef or options changes.
-  *
-  */
+   * Initialize the observer for selected target.
+   * Unsubscribes and sets sets new target when targetRef or options changes.
+   *
+   */
   useEffect(() => {
     const target: T | null = targetRef.current
 
     if (target) {
-      console.log(target)
       // Set up options object with default values for Intersection Observer API.
       const intersectionOptions = {
         root: options?.root || null,
         rootMargin: options?.rootMargin || '0px',
         threshold: options?.threshold || 0
       }
-  
+
       /**
-      * Callback-function checking if element is intersecting.
-      *
-      * @param entries - List of IntersectionObserverEntry-objects.
-      * @param observer - The observer.
-      */
+       * Callback-function checking if element is intersecting.
+       *
+       * @param entries - List of IntersectionObserverEntry-objects.
+       * @param observer - The observer.
+       */
       const intersectionHandler = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
         entries.forEach(entry => {
-          if (entry.isIntersecting && (entry.intersectionRatio > intersectionOptions.threshold) && !isIntersecting) {
+          if (entry.isIntersecting && (entry.intersectionRatio > intersectionOptions.threshold)) {
             // Update state when entering view.
             setIsIntersecting(true)
   
@@ -68,9 +67,7 @@ const useIntersectionObserver = <T extends HTMLElement>(options?: HookOptions) =
             if (optionsSetToOnce) {
               observer.unobserve(entry.target)
             }
-            /* console.log('running hook, intersecting')
-            console.log(entry.intersectionRatio) */
-          } else if (!entry.isIntersecting && isIntersecting) {
+          } else if (!entry.isIntersecting) {
             // Update state when leaving view.
             setIsIntersecting(false)
           }
@@ -81,16 +78,16 @@ const useIntersectionObserver = <T extends HTMLElement>(options?: HookOptions) =
       observer.observe(target)
   
       /**
-      * Return useEffect-cleanUp to unobserve target.
-      * [useEffect clean-up documentation]{@link https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup}
-      */
+       * Return useEffect-cleanUp to unobserve target.
+       * [useEffect clean-up documentation]{@link https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup}
+       */
       return () => {
-        console.log('unobserving')
         observer.unobserve(target)
       }
     }
   }, [targetRef, options])
 
+  // Return ref and state from hook.
   return {
     targetRef,
     isIntersecting

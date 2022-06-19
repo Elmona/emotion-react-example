@@ -34,9 +34,7 @@ const App = () => {
                 </RevealingWrapper>
                 <Cards cards={cards} />
                 <Cards cards={cards} />
-                <Cards cards={cards} />
-                <Cards cards={cards} />
-                {/* <IntersectionPicture uuid='ae39a0be-e360-50e5-a2e0-528ff145b73b' alt='Test image' /> */}
+                <IntersectionPicture uuid='ae39a0be-e360-50e5-a2e0-528ff145b73b' alt='Test image' />
             </main>
             <footer>
                 {/* TOOD */}

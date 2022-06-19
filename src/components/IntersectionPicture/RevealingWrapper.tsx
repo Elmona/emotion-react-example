@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { PropsWithChildren } from 'react'
+import React, { PropsWithChildren, useMemo } from 'react'
 import useIntersectionObserver from '../../hooks/useIntersectionObserver'
 import { wrapperStyle } from './RevealingWrapper.css'
 
@@ -9,8 +9,8 @@ import { wrapperStyle } from './RevealingWrapper.css'
  * @returns {JSX} - Div element.
  */
 const RevealingWrapper = ({ children }: PropsWithChildren) => {
-  const { targetRef, isIntersecting } = useIntersectionObserver<HTMLImageElement>({ intersect_once: false, threshold: 0.6 })
-
+  const { targetRef, isIntersecting } = useIntersectionObserver<HTMLImageElement>(useMemo(() => ({ observe_once: false, threshold: 0.6 }), []))
+  console.log('render RevealingWrapper')
   if (isIntersecting) {
     console.log('Pick-a-boo!')
   }

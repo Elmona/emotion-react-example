@@ -21,7 +21,7 @@ interface IntersectionObserverOptions {
 *
 */
 interface HookOptions extends IntersectionObserverOptions {
-  intersect_once?: boolean
+  observe_once?: boolean
 }
 
 /**
@@ -40,50 +40,52 @@ const useIntersectionObserver = <T extends HTMLElement>(options?: HookOptions) =
   *
   */
   useEffect(() => {
-    // Set up options object with default values for Intersection Observer API.
-    const intersectionOptions = {
-      root: options?.root || null,
-      rootMargin: options?.rootMargin || '0px',
-      threshold: options?.threshold || 0
-    }
-
-    /**
-    * Callback-function checking if element is intersecting.
-    *
-    * @param entries - List of IntersectionObserverEntry-objects.
-    * @param observer - The observer.
-    */
-    const intersectionHandler = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && (entry.intersectionRatio > intersectionOptions.threshold)) {
-          console.log('running hook, intersecting')
-          console.log(entry.intersectionRatio)
-          setIsIntersecting(true)
-
-          const optionsSetToOnce = options?.intersect_once === undefined ? true : options.intersect_once
-
-          if (optionsSetToOnce) {
-            observer.unobserve(entry.target)
-          }
-        } else if (!entry.isIntersecting) {
-          setIsIntersecting(false)
-        }
-      })
-    }
-
-    const observer: IntersectionObserver = new IntersectionObserver(intersectionHandler, intersectionOptions)
     const target: T | null = targetRef.current
 
     if (target) {
+      console.log(target)
+      // Set up options object with default values for Intersection Observer API.
+      const intersectionOptions = {
+        root: options?.root || null,
+        rootMargin: options?.rootMargin || '0px',
+        threshold: options?.threshold || 0
+      }
+  
+      /**
+      * Callback-function checking if element is intersecting.
+      *
+      * @param entries - List of IntersectionObserverEntry-objects.
+      * @param observer - The observer.
+      */
+      const intersectionHandler = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && (entry.intersectionRatio > intersectionOptions.threshold) && !isIntersecting) {
+            // Update state when entering view.
+            setIsIntersecting(true)
+  
+            // Unobserve if options set to intersect once.
+            const optionsSetToOnce = options?.observe_once === undefined ? true : options.observe_once
+            if (optionsSetToOnce) {
+              observer.unobserve(entry.target)
+            }
+            /* console.log('running hook, intersecting')
+            console.log(entry.intersectionRatio) */
+          } else if (!entry.isIntersecting && isIntersecting) {
+            // Update state when leaving view.
+            setIsIntersecting(false)
+          }
+        })
+      }
+  
+      const observer: IntersectionObserver = new IntersectionObserver(intersectionHandler, intersectionOptions)
       observer.observe(target)
-    }
-
-    /**
-    * Return useEffect-cleanUp to unobserve target.
-    * [useEffect clean-up documentation]{@link https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup}
-    */
-    return () => {
-      if (target) {
+  
+      /**
+      * Return useEffect-cleanUp to unobserve target.
+      * [useEffect clean-up documentation]{@link https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup}
+      */
+      return () => {
+        console.log('unobserving')
         observer.unobserve(target)
       }
     }

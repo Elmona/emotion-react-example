@@ -11,10 +11,6 @@ import { wrapperStyle, overlay } from './RevealingWrapper.css'
 const RevealingWrapper = ({ children }: PropsWithChildren) => {
   const { targetRef, isIntersecting } = useIntersectionObserver<HTMLImageElement>(useMemo(() => ({ observe_once: false, threshold: 0.8 }), []))
 
-  if (isIntersecting) {
-    console.log('Peek-a-boo!')
-  }
-
   return (
     <div
       ref={targetRef}

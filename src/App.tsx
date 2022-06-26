@@ -9,6 +9,8 @@ import {GlobalStyles} from './framework/GlobalStyles'
 import {lightTheme} from './framework/theme'
 
 import {cards} from './models/cards'
+import IntersectionPicture from './components/IntersectionPicture/IntersectionPicture'
+import RevealingWrapper from './components/IntersectionPicture/RevealingWrapper'
 
 const App = () => {
     const [theme, setTheme] = useState(lightTheme)
@@ -24,6 +26,15 @@ const App = () => {
             <main>
                 <DisplayTextElements />
                 <Cards cards={cards} />
+                <Cards cards={cards} />
+                <Cards cards={cards} />
+                <Cards cards={cards} />
+                <RevealingWrapper>
+                    <h1>Peek-a-boo!</h1>
+                </RevealingWrapper>
+                <Cards cards={cards} />
+                <Cards cards={cards} />
+                <IntersectionPicture uuid='ae39a0be-e360-50e5-a2e0-528ff145b73b' alt='Test image' />
             </main>
             <footer>
                 {/* TOOD */}
